@@ -10,7 +10,6 @@ int main() {
     int posicao = -1;  
     int thread_encontrou = -1;
 
-    // Inicializa vetor
     for (int i = 0; i < tamanho; i++) vetor[i] = i * 3; // 0, 3, 6, 9, ..., 42, ...
 
     #pragma omp parallel for shared(posicao, thread_encontrou)
