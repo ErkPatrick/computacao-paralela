@@ -15,13 +15,12 @@ int main(int argc, char **argv) {
     int vetor[N];          
     int valorBuscado = 7;
 
-    int particao = N / size;  // quantos elementos cada processo recebe
+    int particao = N / size;
     vector<int> parte(particao);
 
-    // master (rank 0) inicializa o vetor
     if (rank == 0) {
         for (int i = 0; i < N; i++)
-            vetor[i] = i + 1; // vetor = [1,2,3,...,12]
+            vetor[i] = i + 1;
 
         // Envia partes do vetor para os outros processos
         for (int dest = 1; dest < size; dest++) {

@@ -20,35 +20,30 @@ int main(int argc, char** argv) {
     }
 
     if (rank == 0) {
-        // MASTER
         string parte1 = "World";
         string parte2 = "Hello";
 
-        // Envia "World" primeiro
         MPI_Send(parte1.c_str(), parte1.size() + 1, MPI_CHAR, 1, 10, MPI_COMM_WORLD);
 
-        // Envia "Hello" depois
         MPI_Send(parte2.c_str(), parte2.size() + 1, MPI_CHAR, 1, 20, MPI_COMM_WORLD);
 
         cout << "Master enviou: 'World' e depois 'Hello'." << endl;
 
     } else if (rank == 1) {
-        // SLAVE
 
         char buffer1[50];
         char buffer2[50];
 
+        // Diferenciando a partir da tag 
         // Recebe "World"
         MPI_Recv(buffer1, 50, MPI_CHAR, 0, 10, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
         // Recebe "Hello"
         MPI_Recv(buffer2, 50, MPI_CHAR, 0, 20, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        // Converte ambos para string
         string world = buffer1;
         string hello = buffer2;
 
-        // Imprime na ordem CORRETA
         cout << "Processo " << rank << " imprimiu: "
              << hello << " " << world << endl;
     }
