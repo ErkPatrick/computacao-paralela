@@ -11,22 +11,22 @@ int main(int argc, char** argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     const int N = 8;
-    int local[N];
+    int vet_local[N];
     int sum_vet[N];
     int max_vet[N];
 
     // inicializa o vetor de cada processo
     for (int i = 0; i < N; ++i)
-        local[i] = rank + i;
+        vet_local[i] = rank + i;
 
     // prepara vetores auxiliares
     for (int i = 0; i < N; ++i) {
         if (i % 2 == 0) {         // par = soma
-            sum_vet[i] = local[i];
+            sum_vet[i] = vet_local[i];
             max_vet[i] = INT_MIN;  //elemento neutro do máximo
         } else {                  // ímpar = máximo
             sum_vet[i] = 0;  // elemento neutro da soma
-            max_vet[i] = local[i];
+            max_vet[i] = vet_local[i];
         }
     }
 

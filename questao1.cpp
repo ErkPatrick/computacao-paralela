@@ -8,8 +8,7 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // buffer único
-    int buffer = rank;
+    int valor = rank;
 
     const int tag = 100;
 
@@ -22,19 +21,19 @@ int main(int argc, char** argv) {
     }
 
     if (rank == 0) {
-        MPI_Send(&buffer, 1, MPI_INT, 1, tag, MPI_COMM_WORLD);
+        MPI_Send(&valor, 1, MPI_INT, 1, tag, MPI_COMM_WORLD);
 
     } else {
         int recebido = 0;
         // sincronização é feita com o MPI_Recv que é bloqueante
         MPI_Recv(&recebido, 1, MPI_INT, rank - 1, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        buffer = recebido + rank;
+        valor += recebido;
 
         if (rank < size - 1) {
-            MPI_Send(&buffer, 1, MPI_INT, rank + 1, tag, MPI_COMM_WORLD);
+            MPI_Send(&valor, 1, MPI_INT, rank + 1, tag, MPI_COMM_WORLD);
         } else {
-            std::cout << "Rank " << rank << " recebeu o total agregado = " << buffer << "\n";
+            std::cout << "Rank " << rank << " recebeu o total agregado = " << valor << "\n";
         }
     }
 
